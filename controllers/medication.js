@@ -1,13 +1,14 @@
-const Medication = require('../models/Medication')
+const Med = require('../models/Medication')
 //need to make a http-status-codes
 const { StatusCodes } = require('http-status-codes')
 //need to create errors folder with these middlewares
 const { BadRequestError, NotFoundError } = require('../errors')
 
 //need to connect to Postman and Mongoose
-const getAllMeds = async(req, res) => {
-    const meds = await Med.find({createdBy: req.user.userId}).sort('createdAt')
-    res.status(StatusCodes.OK).json({ meds, count: meds.length })
+const getAllMed = async(req, res) => {
+    // res.send('Hello, this is a route for medication')
+    const med = await Med.find({createdBy: req.user.userId}).sort('createdAt')
+    res.status(StatusCodes.OK).json({ med, count: med.length })
 }
 
 const getMed = async (req, res) => {
@@ -71,7 +72,7 @@ const deleteMed = async (req, res) => {
 }
 
 module.exports = {
-    getAllMeds,
+    getAllMed,
     getMed, 
     createMed, 
     updateMed,
