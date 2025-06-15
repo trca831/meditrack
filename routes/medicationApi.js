@@ -7,7 +7,7 @@ const {
     createMed,
     updateMed,
     deleteMed,
-} = require('../controllers/jobs')
+} = require('../controllers/medication')
 
 router.route('/').post(createMed).get(getAllMed)
 router.route('/:id').get(getMed).delete(deleteMed).patch(updateMed)

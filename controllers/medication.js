@@ -8,6 +8,7 @@ const { BadRequestError, NotFoundError } = require('../errors')
 const getAllMed = async(req, res) => {
     // res.send('Hello, this is a route for medication')
     const med = await Med.find({createdBy: req.user.userId}).sort('createdAt')
+    res.render('medications/index', { med }); // This view must exist!
     res.status(StatusCodes.OK).json({ med, count: med.length })
 }
 
@@ -29,9 +30,19 @@ const getMed = async (req, res) => {
 }
 
 const createMed = async (req, res ) => {
-    req.body.createdBy = req.user.userId
-    const med = await Med.create(req.body)
-    res.status(StatusCodes.CREATED).json({ med })
+    // req.body.createdBy = req.user.userId
+    // const med = await Med.create(req.body)
+    // res.status(StatusCodes.CREATED).json({ med })
+    try {
+        const med = await Med.create({
+          ...req.body,
+          createdBy: req.user._id,
+        });
+        res.redirect('/medications');
+      } catch (err) {
+        req.flash('error', 'Failed to add medication.');
+        res.redirect('/medications/new');
+      }
 }
 
 const updateMed = async (req, res) => {
