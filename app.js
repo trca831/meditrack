@@ -43,17 +43,35 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(require("connect-flash")());
+app.use((req, res, next) => {
+  res.locals.successMessages = req.flash('success');
+  res.locals.errorMessages = req.flash('error');
+  next();
+});
+
 app.use(require("./middleware/storeLocals"));
 app.get("/", (req, res) => {
   res.render("index");
 });
+
+const medicationRouter = require("./routes/medication"); //added
+const medicationApiRouter = require('./routes/medicationApi')   // Postman API
+
 app.use("/sessions", require("./routes/sessionRoutes"));
+app.use("/medications", medicationRouter); //added 
+app.use('/api/medications', medicationApiRouter)  // Postman API route
+
 
 // secret word handling
 // let secretWord = "syzygy";
 const secretWordRouter = require("./routes/secretWord");
 const auth = require("./middleware/auth");
 app.use("/secretWord", secretWordRouter);
+
+
+app.get("/", (req, res) => {
+  res.redirect("/medications"); // added
+});
 
 app.use((req, res) => {
   res.status(404).send(`That page (${req.url}) was not found.`);

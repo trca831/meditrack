@@ -1,0 +1,42 @@
+<%- include("../partials/head.ejs") %>
+<%- include("../partials/header.ejs") %>
+
+<main>
+  <h2>Add a New Medication</h2>
+  <form action="/medications" method="POST">
+    <label for="name">Medication Name:</label>
+    <input id="name" name="name" required /><br />
+
+    <label for="dosage">Dosage:</label>
+    <input id="dosage" name="dosage" required /><br />
+
+    <label for="frequency">Frequency:</label>
+    <select name="frequency" id="frequency" required>
+      <option>Once a day</option>
+      <option>Twice a day</option>
+      <option>Three times a day</option>
+      <option>As needed</option>
+    </select><br />
+
+    <label for="timeOfDay">Time of Day:</label>
+    <select name="timeOfDay" id="timeOfDay">
+      <option>Morning</option>
+      <option>Afternoon</option>
+      <option>Evening</option>
+      <option>Night</option>
+    </select><br />
+
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" required /><br />
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" /><br />
+
+    <label for="notes">Notes:</label>
+    <textarea id="notes" name="notes"></textarea><br />
+
+    <button type="submit">Add Medication</button>
+  </form>
+</main>
+
+<%- include("../partials/footer.ejs") %>
