@@ -16,7 +16,7 @@ const registerDo = async (req, res, next) => {
 
     req.login(newUser, function(err){
       if (err) return next(err);
-      return res.direct("/medications");
+      return res.direct("/");
     });
   } catch (e) {
     if (e.constructor.name === "ValidationError") {
@@ -41,7 +41,7 @@ const logoff = (req, res) => {
 
 const logonShow = (req, res) => {
   if (req.user) {
-    return res.redirect("/");
+    return res.redirect("/medications");
   }
   res.render("logon");
 };
