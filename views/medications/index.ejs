@@ -1,16 +1,13 @@
-<!-- views/medications/index.ejs -->
-<h1>All Medications</h1>
+<%- include("../partials/head.ejs") %>
+<%- include("../partials/header.ejs") %>
 
-<% if (med.length === 0) { %>
-  <p>No medications found.</p>
-<% } else { %>
+<main>
+  <h2>All Medications</h2>
   <ul>
-    <% med.forEach(med => { %>
-      <li>
-        <strong><%= med.name %></strong> - <%= med.dosage %>
-      </li>
+    <% med.forEach(m => { %>
+      <li><strong><%= m.name %></strong> - <%= m.dosage %></li>
     <% }) %>
   </ul>
-<% } %>
+</main>
 
-<a href="/medications/new">Add New Medication</a>
+<%- include("../partials/footer.ejs") %>

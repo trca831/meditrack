@@ -3,6 +3,15 @@ const express = require('express')
 const router = express.Router()
 const Med = require("../models/Medication");
 
+const {
+  createMed,
+  getAllMed,
+  getMed,
+  updateMed,
+  deleteMed,
+ } = require("../controllers/medication");
+
+
 // isLoggedIn middleware
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
@@ -19,6 +28,11 @@ router.post('/', auth, submitForm)
 router.get('/new', isLoggedIn, (req, res) => {
     res.render('medications/form');
 });
-router.post('/', isLoggedIn, createMed);
+
+// Route to handle the form submission
+router.post("/", isLoggedIn, createMed);
+
+// Route to display all medications
+router.get("/", isLoggedIn, getAllMed);
 
 module.exports = router
