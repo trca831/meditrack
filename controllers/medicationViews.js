@@ -7,10 +7,11 @@ const showForm = (req, res) => {
 
 const submitForm = async (req, res) => {
   try {
+    console.log(req.user)
     await Med.create({
       ...req.body,
-      createdBy: req.user.userId,
-    })
+      userId: req.user._id,
+    });
     res.redirect('/medications') // redirect after saving
   } catch (err) {
     console.log(err)
