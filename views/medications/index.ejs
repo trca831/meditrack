@@ -1,0 +1,13 @@
+<%- include("../partials/head.ejs") %>
+<%- include("../partials/header.ejs") %>
+
+<main>
+  <h2>All Medications</h2>
+  <ul>
+    <% med.forEach(m => { %>
+      <li><strong><%= m.name %></strong> - <%= m.dosage %></li>
+    <% }) %>
+  </ul>
+</main>
+
+<%- include("../partials/footer.ejs") %>

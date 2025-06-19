@@ -48,4 +48,4 @@ const MedicationSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Medication', MedicationSchema);
+module.exports = mongoose.model('Med', MedicationSchema);
