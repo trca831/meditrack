@@ -9,7 +9,7 @@ app.use(require("body-parser").urlencoded({ extended: true }));
 require("dotenv").config(); // to load the .env file into the process.env object
 const session = require("express-session");
 
-const connectDB = require('./db/connect')
+const connectDB = require("./db/connect");
 // might not need this
 const MongoDBStore = require("connect-mongodb-session")(session);
 const url = process.env.MONGO_URI;
@@ -46,8 +46,8 @@ app.use(passport.session());
 
 app.use(require("connect-flash")());
 app.use((req, res, next) => {
-  res.locals.successMessages = req.flash('success');
-  res.locals.errorMessages = req.flash('error');
+  res.locals.successMessages = req.flash("success");
+  res.locals.errorMessages = req.flash("error");
   next();
 });
 
@@ -56,13 +56,12 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-const medicationRouter = require("./routes/medication"); //added
-const medicationApiRouter = require('./routes/medicationApi')   // Postman API
+const medicationRoutes = require("./routes/medication"); //added
+// const medicationApiRouter = require('./routes/medicationApi')   // Postman API
 
 app.use("/sessions", require("./routes/sessionRoutes"));
-app.use("/medications", medicationRouter); //added 
-app.use('/api/medications', medicationApiRouter)  // Postman API route
-
+app.use("/medication", medicationRoutes); //added
+// app.use('/api/medications', medicationApiRouter)  // Postman API route
 
 // secret word handling
 // let secretWord = "syzygy";
@@ -70,9 +69,11 @@ const secretWordRouter = require("./routes/secretWord");
 const auth = require("./middleware/auth");
 app.use("/secretWord", secretWordRouter);
 
+//middleware
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.get("/", (req, res) => {
-  res.redirect("/medications"); // added
+  res.redirect("/medication"); // added
 });
 
 app.use((req, res) => {
@@ -84,12 +85,14 @@ app.use((err, req, res, next) => {
   console.log(err);
 });
 
+app.use(errorHandlerMiddleware);
+
 const port = process.env.PORT || 3000;
 
 const start = async () => {
   try {
     // await require("./db/connect")(process.env.MONGO_URI);
-    await connectDB(process.env.MONGO_URI)
+    await connectDB(process.env.MONGO_URI);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
