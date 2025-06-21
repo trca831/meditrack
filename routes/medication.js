@@ -17,11 +17,12 @@ const auth = require("../middleware/auth");
 // PROTECTED: Show all medications
 router.get("/", auth, getAllMeds);
 
+// PROTECTED: Render form to create new medication
+//TESTING
+router.get("/medications/new", auth, renderNewMedForm);
+
 // PROTECTED: Show a single medication
 router.get("/:id", auth, getMed);
-
-// PROTECTED: Render form to create new medication
-router.get("/new", auth, renderNewMedForm);
 
 // PROTECTED: Handle form submission for new med
 router.post("/", auth, createMed);

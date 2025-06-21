@@ -3,7 +3,8 @@
 
 <main>
   <h2>Edit Medication</h2>
-  <form action="/medications/<%= med._id %>" method="POST">
+  <form method="POST" action="<%= medication ? '/medications/new/' + med._id : '/medications' %>">
+  <!-- <form action="/medications/<%= med._id %>" method="POST"> -->
     <!-- Medication Name -->
     <label for="name">Medication Name:</label>
     <input

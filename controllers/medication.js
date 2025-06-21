@@ -203,7 +203,7 @@ const getMed = async (req, res) => {
 
 // GET /medications/new - Render form to create a new med
 const renderNewMedForm = (req, res) => {
-  res.render("medications/new"); // render meds/new.ejs
+  res.render("medications/new", { medication: null }); // render meds/new.ejs
 };
 
 // POST /medications - Create a new med
