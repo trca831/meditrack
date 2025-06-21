@@ -1,0 +1,73 @@
+<%- include("../partials/head.ejs") %>
+<%- include("../partials/header.ejs") %>
+
+<main>
+  <h2>Edit Medication</h2>
+  <form action="/medications/<%= med._id %>" method="POST">
+    <!-- Medication Name -->
+    <label for="name">Medication Name:</label>
+    <input
+      id="name"
+      name="name"
+      type="text"
+      value="<%= med.name %>"
+      required
+      minlength="2"
+      maxlength="100"
+    /><br />
+
+    <!-- Dosage -->
+    <label for="dosage">Dosage (mg):</label>
+    <input
+      id="dosage"
+      name="dosage"
+      type="number"
+      min="1"
+      max="10000"
+      value="<%= med.dosage %>"
+      required
+    /><br />
+
+    <!-- Frequency -->
+    <label for="frequency">Frequency:</label>
+    <select name="frequency" id="frequency" required>
+      <option value="">--Select Frequency--</option>
+      <option value="Once a day" <%= med.frequency === "Once a day" ? "selected" : "" %>>
+        Once a day
+      </option>
+      <option value="Twice a day" <%= med.frequency === "Twice a day" ? "selected" : "" %>>
+        Twice a day
+      </option>
+      <option value="Three times a day" <%= med.frequency === "Three times a day" ? "selected" : "" %>>
+        Three times a day
+      </option>
+      <option value="As needed" <%= med.frequency === "As needed" ? "selected" : "" %>>
+        As needed
+      </option>
+    </select><br />
+
+    <!-- Date -->
+    <label for="date">Start Date:</label>
+    <input
+      type="date"
+      id="date"
+      name="date"
+      value="<%= med.date ? med.date.toISOString().slice(0, 10) : '' %>"
+      required
+    /><br />
+
+    <!-- Notes -->
+    <label for="notes">Notes (separate by commas):</label>
+    <textarea
+      id="notes"
+      name="notes"
+      placeholder="e.g., Take with food, Avoid driving"
+    ><%= med.notes ? med.notes.join(", ") : "" %></textarea
+    ><br />
+
+    <button type="submit">Update Medication</button>
+    <a href="/medications">Cancel</a>
+  </form>
+</main>
+
+<%- include("../partials/footer.ejs") %>

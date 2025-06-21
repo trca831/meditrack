@@ -1,51 +1,55 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const MedicationSchema = new mongoose.Schema({
-  userId: {
-    //stores ID of a document from another model
-    //tells Mongoose that:
-    //userID is not just a string, its a ObjectId
-    //a unique ID mongoDB
-    //"this record is owned by this user"
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
+  // userId: {
+  //   //stores ID of a document from another model
+  //   //tells Mongoose that:
+  //   //userID is not just a string, its a ObjectId
+  //   //a unique ID mongoDB
+  //   //"this record is owned by this user"
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   required: true,
+  // },
   name: {
     type: String,
-    required: [true, 'Please provide the medication name'],
+    required: [true, "Medication name must be provided"],
+    minlength: [2, "Medication name must be at least 2 characters long"],
     trim: true,
-    maxlength: 100,
+    maxlength: [100, "Medication name cannot be more than 100 characters long"],
   },
   dosage: {
-    type: String,
-    required: [true, 'Please provide the dosage (e.g. 10mg)'],
+    type: Number,
+    required: [true, "Dosage number must be provided"],
+    min: [1, "Dosage must be at least 1mg"],
+    max: [10000, "Dosage must be less than 10,000mg"],
   },
   frequency: {
     type: String,
-    required: [true, 'Please provide how often this medication is taken'],
-    enum: ['Once a day', 'Twice a day', 'Three times a day', 'As needed'],
-  },
-  timeOfDay: {
-    type: String,
-    enum: ['Morning', 'Afternoon', 'Evening', 'Night'],
-    default: 'Morning',
-  },
-  startDate: {
-    type: Date,
-    required: [true, 'Please provide a start date'],
-  },
-  endDate: {
-    type: Date,
+    required: [true, "Please provide how often this medication is taken"],
+    enum: ["Once a day", "Twice a day", "Three times a day", "As needed"],
   },
   taken: {
-    type: [Date], // array of timestamps when the med was taken
-    default: [],
+    type: Boolean,
+    default: false,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+    required: [true, "Date must be provided"],
   },
   notes: {
-    type: String,
-    maxlength: 250,
+    type: [String],
+    validate: {
+      validator: function (arr) {
+        return arr.every(
+          (note) => typeof note === "string" && note.trim().length > 0
+        );
+      },
+      message: "Notes must be non-empty strings",
+    },
+    default: [],
   },
-}, { timestamps: true });
+});
 
-module.exports = mongoose.model('Med', MedicationSchema);
+module.exports = mongoose.model("Med", MedicationSchema);
