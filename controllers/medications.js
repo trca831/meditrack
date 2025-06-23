@@ -23,6 +23,7 @@ const getAllMeds = async (req, res) => {
   res.render("medications", {
     meds,
     _csrf: req.csrfToken(),
+    user: req.user,
   });
 };
 

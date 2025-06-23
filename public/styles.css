@@ -1,0 +1,154 @@
+/* Base table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Header row style */
+  th {
+    background-color: #007BFF; /* nice blue */
+    color: white;
+    font-weight: 600;
+  }
+  
+  /* Zebra striping for readability */
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Hover effect */
+  tbody tr:hover {
+    background-color: #e6f0ff;
+    cursor: pointer;
+  }
+  
+  /* Taken medication row style */
+  tr.taken {
+    background-color: #d1e7dd; /* soft green */
+    color: #0f5132; /* dark green text */
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+
+  /* Optional: also style the checkbox label or disable pointer events */
+    tr.taken input[type="checkbox"] {
+    cursor: default;
+  }
+  
+  /* Make buttons nicer */
+  button {
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Checkbox styling (optional) */
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+
+  /* Highlight entire row if medication is taken */
+tr.taken {
+    background-color: #d4edda; /* soft green */
+    color: #155724; /* dark green text */
+    text-decoration: line-through; /* cross out text */
+    opacity: 0.7;
+  }
+
+  /* EDIT and UPDATE Form ONLY */
+
+  .med-form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 25px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fefefe;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .med-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="number"],
+  .form-group input[type="date"],
+  .form-group select,
+  .form-group textarea {
+    padding: 8px 10px;
+    font-size: 1rem;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input[type="text"]:focus,
+  .form-group input[type="number"]:focus,
+  .form-group input[type="date"]:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .btn-submit {
+    display: block;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-submit:hover {
+    background-color: #0056b3;
+  }
