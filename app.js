@@ -12,12 +12,10 @@ const bodyParser = require("body-parser");
 require("dotenv").config(); // to load the .env file into the process.env object
 
 const connectDB = require("./db/connect");
-// might not need this
 const MongoDBStore = require("connect-mongodb-session")(session);
 const url = process.env.MONGO_URI;
 
 const store = new MongoDBStore({
-  // may throw an error, which won't be caught
   uri: url,
   collection: "mySessions",
 });
@@ -38,22 +36,27 @@ if (app.get("env") === "production") {
   sessionParms.cookie.secure = true; // serve secure cookies
 }
 
+const helmet = require("helmet");
+const xss = require("xss-clean");
+
 // Middleware order matters
 app.use(cookieParser(process.env.SESSION_SECRET)); // 1. cookie parser
 app.use(session(sessionParms)); // 2. session
 app.use(bodyParser.urlencoded({ extended: true })); // 3. body parser
 app.use(csrf());
 
-// Make CSRF token available to EJS views
+// Set security HTTP headers
+app.use(helmet());
+
+// Prevent XSS attacks
+app.use(xss());
+
 app.use((req, res, next) => {
-  // console.log("CSRF token for this request:", req.csrfToken());
-  // res.locals._csrf = req.csrfToken();
   res.locals.csrfToken = req.csrfToken ? req.csrfToken() : null;
   res.locals.user = req.user || null;
   next();
 });
 
-// app.use(session(sessionParms)); //remove if app works fine afterward
 const passport = require("passport");
 const passportInit = require("./passport/passportInit");
 
@@ -69,37 +72,30 @@ app.use((req, res, next) => {
 });
 
 app.use(require("./middleware/storeLocals"));
-app.get("/", (req, res) => {
-  res.render("index");
-});
 
 const medicationRoutes = require("./routes/medication"); //added
-// const medicationApiRouter = require('./routes/medicationApi')   // Postman API
+
+// app.get("/", (req, res) => {
+//   res.render("index");
+// });
 
 app.use("/sessions", require("./routes/sessionRoutes"));
 app.use("/medications", medicationRoutes); //added
-// app.use('/api/medications', medicationApiRouter)  // Postman API route
 
-// secret word handling
-// let secretWord = "syzygy";
 const secretWordRouter = require("./routes/secretWord");
-// const auth = require("./middleware/auth");
 app.use("/secretWord", secretWordRouter);
 
 //middleware
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.get("/", (req, res) => {
-  res.redirect("/medications"); // added
+  return res.redirect("/medications"); // added
 });
+
+// app.use(errorHandlerMiddleware);
 
 app.use((req, res) => {
   res.status(404).send(`That page (${req.url}) was not found.`);
-});
-
-app.use((err, req, res, next) => {
-  res.status(500).send(err.message);
-  console.log(err);
 });
 
 app.use(errorHandlerMiddleware);
@@ -108,7 +104,6 @@ const port = process.env.PORT || 3000;
 
 const start = async () => {
   try {
-    // await require("./db/connect")(process.env.MONGO_URI);
     await connectDB(process.env.MONGO_URI);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)

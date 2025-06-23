@@ -7,6 +7,9 @@ const registerShow = (req, res) => {
 };
 
 const registerDo = async (req, res, next) => {
+  res.once("finish", () => {
+    console.log("✅ Response sent successfully.");
+  });
   console.log("register endpoint");
   console.log(req.body);
   if (req.body.password != req.body.password1) {
@@ -29,14 +32,16 @@ const registerDo = async (req, res, next) => {
     });
   } catch (e) {
     console.log(`error ${e}`);
+
     if (e.constructor.name === "ValidationError") {
       parseVErr(e, req);
+      return res.render("register", { errors: req.flash("errors") });
     } else if (e.name === "MongoServerError" && e.code === 11000) {
       req.flash("error", "That email address is already registered.");
+      return res.render("register", { errors: req.flash("errors") });
     } else {
       return next(e);
     }
-    return res.render("register", { errors: req.flash("errors") });
   }
 };
 
@@ -45,7 +50,7 @@ const logoff = (req, res) => {
     if (err) {
       console.log(err);
     }
-    res.redirect("/");
+    return res.redirect("/");
   });
 };
 

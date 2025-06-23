@@ -34,6 +34,7 @@ const passportInit = () => {
   passport.deserializeUser(async function (id, done) {
     try {
       const user = await User.findById(id);
+      done(null, user);
       if (!user) {
         return done(new Error("user not found"));
       }

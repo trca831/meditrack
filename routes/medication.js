@@ -28,8 +28,8 @@ function isLoggedIn(req, res, next) {
   res.redirect("/sessions/logon");
 }
 
-router.get("/new", isLoggedIn, (req, res) => {
-  res.render("medications/form");
-});
+// router.get("/new", isLoggedIn, (req, res) => {
+//   res.render("medications/form");
+// });
 
 module.exports = router;

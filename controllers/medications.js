@@ -4,7 +4,7 @@ const { BadRequestError, NotFoundError } = require("../errors");
 const toggleTaken = async (req, res) => {
   const med = await Med.findOne({
     _id: req.params.id,
-    createdBy: req.user.userId,
+    createdBy: req.user._id,
   });
 
   if (!med) {
@@ -14,23 +14,21 @@ const toggleTaken = async (req, res) => {
   med.taken = !med.taken;
   await med.save();
 
-  res.redirect("/medications");
+  return res.redirect("/medications");
 };
 
-// GET /medications - Show all meds
 const getAllMeds = async (req, res) => {
-  const meds = await Med.find({ createdBy: req.user.userId });
-  res.render("medications", {
+  const meds = await Med.find({ createdBy: req.user._id });
+  return res.render("medications", {
     meds,
     _csrf: req.csrfToken(),
     user: req.user,
   });
 };
 
-// GET /medications/:id - Show a single med
 const getMed = async (req, res) => {
   const {
-    user: { userId },
+    user: { _id: userId },
     params: { id: medId },
   } = req;
 
@@ -43,40 +41,35 @@ const getMed = async (req, res) => {
     throw new NotFoundError(`No medication with id ${medId}`);
   }
 
-  res.render("medications", { med }); // render meds/show.ejs
+  return res.render("medications", { med });
 };
 
-// GET /medications/new - Render form to create a new med
 const renderNewMedForm = (req, res) => {
-  // res.redirect("/medications/new"); // render meds/new.ejs
-  res.render("medication", { med: null });
+  return res.render("medication", { med: null });
 };
 
-// POST /medications - Create a new med
 const createMed = async (req, res) => {
-  req.body.createdBy = req.user.userId;
+  req.body.createdBy = req.user._id;
   await Med.create(req.body);
-  res.redirect("/medications"); // redirect to meds list
+  return res.redirect("/medications");
 };
 
-// GET /medications/:id/edit - Render form to edit a med
 const renderEditMedForm = async (req, res) => {
   const med = await Med.findOne({
     _id: req.params.id,
-    createdBy: req.user.userId,
+    createdBy: req.user._id,
   });
 
   if (!med) {
     throw new NotFoundError(`No medication with id ${req.params.id}`);
   }
 
-  // res.redirect("/medications"); // render meds/edit.ejs
-  res.render("medication", { med });
+  return res.render("medication", { med });
 };
 
 const updateMed = async (req, res) => {
   const {
-    user: { userId },
+    user: { _id: userId },
     params: { id: medId },
   } = req;
 
@@ -86,13 +79,12 @@ const updateMed = async (req, res) => {
 
   await Med.updateOne({ _id: medId, createdBy: userId }, req.body);
 
-  res.redirect("/medications");
+  return res.redirect("/medications");
 };
 
-// POST /medications/:id/delete - Delete a med
 const deleteMed = async (req, res) => {
   const {
-    user: { userId },
+    user: { _id: userId },
     params: { id: medId },
   } = req;
 
@@ -105,7 +97,7 @@ const deleteMed = async (req, res) => {
     throw new NotFoundError(`No medication with id ${medId}`);
   }
 
-  res.redirect("/medications");
+  return res.redirect("/medications");
 };
 
 module.exports = {

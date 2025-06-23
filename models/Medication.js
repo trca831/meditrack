@@ -1,16 +1,6 @@
 const mongoose = require("mongoose");
 
 const MedicationSchema = new mongoose.Schema({
-  // userId: {
-  //   //stores ID of a document from another model
-  //   //tells Mongoose that:
-  //   //userID is not just a string, its a ObjectId
-  //   //a unique ID mongoDB
-  //   //"this record is owned by this user"
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User',
-  //   required: true,
-  // },
   name: {
     type: String,
     required: [true, "Medication name must be provided"],
@@ -49,6 +39,16 @@ const MedicationSchema = new mongoose.Schema({
       message: "Notes must be non-empty strings",
     },
     default: [],
+  },
+  createdBy: {
+    //stores ID of a document from another model
+    //tells Mongoose that:
+    //userID is not just a string, its a ObjectId
+    //a unique ID mongoDB
+    //"this record is owned by this user"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 });
 
