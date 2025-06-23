@@ -1,10 +1,13 @@
 const express = require("express");
 require("express-async-errors");
+const bodyParser = require("body-parser");
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(require("body-parser").urlencoded({ extended: true }));
+const cookieParser = require("cookie-parser");
+const csrf = require("csurf");
 
 require("dotenv").config(); // to load the .env file into the process.env object
 const session = require("express-session");
@@ -36,7 +39,19 @@ if (app.get("env") === "production") {
   sessionParms.cookie.secure = true; // serve secure cookies
 }
 
-app.use(session(sessionParms));
+// Middleware order matters
+app.use(cookieParser(process.env.SESSION_SECRET)); // 1. cookie parser
+app.use(session(sessionParms)); // 2. session
+app.use(bodyParser.urlencoded({ extended: true })); // 3. body parser
+app.use(csrf());
+
+// Make CSRF token available to EJS views
+app.use((req, res, next) => {
+  res.locals._csrf = req.csrfToken();
+  next();
+});
+
+// app.use(session(sessionParms)); //remove if app works fine afterward
 const passport = require("passport");
 const passportInit = require("./passport/passportInit");
 

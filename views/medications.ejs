@@ -1,18 +1,36 @@
-
-
 <main>
   <h2>Medications List</h2>
   <a href="/medications/new"><button type="button">Add New Medication</button></a>
 
   <table>
     <tr>
-      <th>Name</th><th>Dosage</th><th>Date</th><th>Edit</th><th>Delete</th>
+      <th>Taken</th>
+      <th>Name</th>
+      <th>Dosage</th>
+      <th>Frequency</th>
+      <th>Date</th>
+      <th>Notes</th>
+      <th>Edit</th>
+      <th>Delete</th>
     </tr>
     <% meds.forEach(med => { %>
       <tr>
+        <td>
+          <form action="/medications/toggle/<%= med._id %>" method="POST">
+            <input type="hidden" name="_csrf" value="<%= _csrf %>">
+            <input
+              type="checkbox"
+              name="taken"
+              onchange="this.form.submit()"
+              <%= med.taken ? 'checked' : '' %>
+            >
+          </form>
+        </td>
         <td><%= med.name %></td>
         <td><%= med.dosage %></td>
+        <td><%= med.frequency %></td>
         <td><%= med.date ? new Date(med.date).toDateString() : "No date" %></td>
+        <td><%= med.notes || "No notes" %></td>
         <td>
           <a href="/medications/edit/<%= med._id %>">
             <button type="button">Edit</button>
