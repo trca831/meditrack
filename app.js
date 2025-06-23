@@ -1,10 +1,13 @@
 const express = require("express");
 require("express-async-errors");
+const bodyParser = require("body-parser");
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(require("body-parser").urlencoded({ extended: true }));
+const cookieParser = require("cookie-parser");
+const csrf = require("csurf");
 
 require("dotenv").config(); // to load the .env file into the process.env object
 const session = require("express-session");
@@ -36,7 +39,19 @@ if (app.get("env") === "production") {
   sessionParms.cookie.secure = true; // serve secure cookies
 }
 
-app.use(session(sessionParms));
+// Middleware order matters
+app.use(cookieParser(process.env.SESSION_SECRET)); // 1. cookie parser
+app.use(session(sessionParms)); // 2. session
+app.use(bodyParser.urlencoded({ extended: true })); // 3. body parser
+app.use(csrf());
+
+// Make CSRF token available to EJS views
+app.use((req, res, next) => {
+  res.locals._csrf = req.csrfToken();
+  next();
+});
+
+// app.use(session(sessionParms)); //remove if app works fine afterward
 const passport = require("passport");
 const passportInit = require("./passport/passportInit");
 
@@ -60,20 +75,20 @@ const medicationRoutes = require("./routes/medication"); //added
 // const medicationApiRouter = require('./routes/medicationApi')   // Postman API
 
 app.use("/sessions", require("./routes/sessionRoutes"));
-app.use("/medication", medicationRoutes); //added
+app.use("/medications", medicationRoutes); //added
 // app.use('/api/medications', medicationApiRouter)  // Postman API route
 
 // secret word handling
 // let secretWord = "syzygy";
 const secretWordRouter = require("./routes/secretWord");
-const auth = require("./middleware/auth");
+// const auth = require("./middleware/auth");
 app.use("/secretWord", secretWordRouter);
 
 //middleware
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.get("/", (req, res) => {
-  res.redirect("/medication"); // added
+  res.redirect("/medications"); // added
 });
 
 app.use((req, res) => {

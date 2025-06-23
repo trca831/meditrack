@@ -1,0 +1,27 @@
+<h2><%= med ? 'Edit Medication' : 'New Medication' %></h2>
+
+<form method="POST" action="<%= med ? '/medications/update/' + med._id : '/medications' %>">
+  <input type="hidden" name="_csrf" value="<%= _csrf %>">
+
+  <label>Name</label>
+  <input type="text" name="name" value="<%= med ? med.name : '' %>">
+
+  <label>Dosage</label>
+  <input type="number" name="dosage" value="<%= med ? med.dosage : '' %>">mg
+
+  <label>Frequency</label>
+  <select name="frequency">
+    <option value="Once a day" <%= med && med.frequency === "Once a day" ? "selected" : "" %>>Once a day</option>
+    <option value="Twice a day" <%= med && med.frequency === "Twice a day" ? "selected" : "" %>>Twice a day</option>
+    <option value="Three times a day" <%= med && med.frequency === "Three times a day" ? "selected" : "" %>>Three times a day</option>
+    <option value="As needed" <%= med && med.frequency === "As needed" ? "selected" : "" %>>As needed</option>
+  </select>
+
+  <label>Date</label>
+  <input type="date" name="date" value="<%= med && med.date ? med.date.toISOString().slice(0,10) : '' %>">
+
+  <label>Notes</label>
+  <textarea name="notes"><%= med ? med.notes : '' %></textarea>
+
+  <button type="submit"><%= med ? 'Update' : 'Create' %></button>
+</form>
