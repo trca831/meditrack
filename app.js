@@ -60,20 +60,20 @@ const medicationRoutes = require("./routes/medication"); //added
 // const medicationApiRouter = require('./routes/medicationApi')   // Postman API
 
 app.use("/sessions", require("./routes/sessionRoutes"));
-app.use("/medication", medicationRoutes); //added
+app.use("/medications", medicationRoutes); //added
 // app.use('/api/medications', medicationApiRouter)  // Postman API route
 
 // secret word handling
 // let secretWord = "syzygy";
 const secretWordRouter = require("./routes/secretWord");
-const auth = require("./middleware/auth");
+// const auth = require("./middleware/auth");
 app.use("/secretWord", secretWordRouter);
 
 //middleware
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.get("/", (req, res) => {
-  res.redirect("/medication"); // added
+  res.redirect("/medications"); // added
 });
 
 app.use((req, res) => {

@@ -1,4 +1,3 @@
-// routes/medication.js
 const express = require("express");
 const router = express.Router();
 
@@ -10,47 +9,31 @@ const {
   deleteMed,
   renderNewMedForm,
   renderEditMedForm,
-} = require("../controllers/medication");
+} = require("../controllers/medications");
 
-const auth = require("../middleware/auth");
+router.get("/", getAllMeds);
+router.get("/new", renderNewMedForm);
+router.get("/:id", getMed);
+router.post("/", createMed);
+router.get("/edit/:id", renderEditMedForm);
+router.post("/update/:id", updateMed);
+router.post("/delete/:id/", deleteMed);
 
-// PROTECTED: Show all medications
-router.get("/", auth, getAllMeds);
-
-// PROTECTED: Render form to create new medication
-//TESTING
-router.get("/medications/new", auth, renderNewMedForm);
-
-// PROTECTED: Show a single medication
-router.get("/:id", auth, getMed);
-
-// PROTECTED: Handle form submission for new med
-router.post("/", auth, createMed);
-
-// PROTECTED: Render edit form
-router.get("/:id/edit", auth, renderEditMedForm);
-
-// PROTECTED: Handle update
-router.post("/:id", auth, updateMed);
-
-// PROTECTED: Handle deletion
-router.post("/:id/delete", auth, deleteMed);
-
-// // isLoggedIn middleware
-// function isLoggedIn(req, res, next) {
-//   if (req.isAuthenticated()) return next();
-//   req.flash("error", "You must be logged in to view this page.");
-//   res.redirect("/sessions/logon");
-// }
+// isLoggedIn middleware
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  req.flash("error", "You must be logged in to view this page.");
+  res.redirect("/sessions/logon");
+}
 
 // const { showForm, submitForm } = require("../controllers/medicationViews");
 
 // router.get("/", auth, showForm);
 // router.post("/", auth, submitForm);
 
-// router.get("/new", isLoggedIn, (req, res) => {
-//   res.render("medications/form");
-// });
+router.get("/new", isLoggedIn, (req, res) => {
+  res.render("medications/form");
+});
 
 // // Router to show ALL Medications
 // router.get("/medications", async (req, res) => {
