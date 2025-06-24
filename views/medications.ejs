@@ -20,7 +20,6 @@
       <tr>
         <td>
           <form action="/medications/toggle/<%= med._id %>" method="POST">
-            <!-- <input type="hidden" name="_csrf" value="<%= _csrf %>"> -->
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input
               type="checkbox"
