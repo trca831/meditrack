@@ -1,4 +1,5 @@
 const express = require("express");
+const helmet = require("helmet");
 require("express-async-errors");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -7,9 +8,10 @@ const csrf = require("csurf");
 const flash = require("connect-flash");
 
 const app = express();
-
 app.set("view engine", "ejs");
 const bodyParser = require("body-parser");
+const { xss } = require("express-xss-sanitizer");
+
 // app.use(require("body-parser").urlencoded({ extended: true }));
 // const cookieParser = require("cookie-parser");
 // const csrf = require("csurf");
@@ -48,6 +50,8 @@ if (app.get("env") === "production") {
 app.use(cookieParser(process.env.SESSION_SECRET)); // 1. cookie parser
 app.use(session(sessionParms)); // 2. session
 app.use(bodyParser.urlencoded({ extended: true })); // 3. body parser
+app.use(xss());
+app.use(helmet());
 app.use(csrf());
 
 // Make CSRF token available to EJS views
