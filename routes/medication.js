@@ -19,7 +19,7 @@ router.get("/:id", isLoggedIn, getMed);
 router.post("/", isLoggedIn, createMed);
 router.get("/edit/:id", isLoggedIn, renderEditMedForm);
 router.post("/update/:id", isLoggedIn, updateMed);
-router.post("/delete/:id/", isLoggedIn, deleteMed);
+router.post("/delete/:id", isLoggedIn, deleteMed);
 
 // isLoggedIn middleware
 function isLoggedIn(req, res, next) {
