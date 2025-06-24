@@ -93,9 +93,9 @@ app.use("/secretWord", secretWordRouter);
 //middleware
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
-app.get("/", (req, res) => {
-  res.redirect("/medications"); // added
-});
+// app.get("/", (req, res) => {
+//   res.redirect("/medications"); // added
+// });
 
 app.use((req, res) => {
   res.status(404).send(`That page (${req.url}) was not found.`);
