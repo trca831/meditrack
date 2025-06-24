@@ -4,7 +4,7 @@ const { BadRequestError, NotFoundError } = require("../errors");
 const toggleTaken = async (req, res) => {
   const med = await Med.findOne({
     _id: req.params.id,
-    createdBy: req.user.userId,
+    createdBy: req.user._id,
   });
 
   if (!med) {
@@ -19,17 +19,18 @@ const toggleTaken = async (req, res) => {
 
 // GET /medications - Show all meds
 const getAllMeds = async (req, res) => {
-  const meds = await Med.find({ createdBy: req.user.userId });
+  const meds = await Med.find({ createdBy: req.user._id });
   res.render("medications", {
     meds,
     _csrf: req.csrfToken(),
+    user: req.user,
   });
 };
 
 // GET /medications/:id - Show a single med
 const getMed = async (req, res) => {
   const {
-    user: { userId },
+    user: { _id: userId },
     params: { id: medId },
   } = req;
 
@@ -53,7 +54,7 @@ const renderNewMedForm = (req, res) => {
 
 // POST /medications - Create a new med
 const createMed = async (req, res) => {
-  req.body.createdBy = req.user.userId;
+  req.body.createdBy = req.user._id;
   await Med.create(req.body);
   res.redirect("/medications"); // redirect to meds list
 };
@@ -62,7 +63,7 @@ const createMed = async (req, res) => {
 const renderEditMedForm = async (req, res) => {
   const med = await Med.findOne({
     _id: req.params.id,
-    createdBy: req.user.userId,
+    createdBy: req.user._id,
   });
 
   if (!med) {
@@ -75,7 +76,7 @@ const renderEditMedForm = async (req, res) => {
 
 const updateMed = async (req, res) => {
   const {
-    user: { userId },
+    user: { _id: userId },
     params: { id: medId },
   } = req;
 
@@ -91,7 +92,7 @@ const updateMed = async (req, res) => {
 // POST /medications/:id/delete - Delete a med
 const deleteMed = async (req, res) => {
   const {
-    user: { userId },
+    user: { _id: userId },
     params: { id: medId },
   } = req;
 

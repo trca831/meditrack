@@ -1,3 +1,6 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+
 <main>
   <h2>Medications List</h2>
   <a href="/medications/new"><button type="button">Add New Medication</button></a>
@@ -17,7 +20,7 @@
       <tr>
         <td>
           <form action="/medications/toggle/<%= med._id %>" method="POST">
-            <input type="hidden" name="_csrf" value="<%= _csrf %>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input
               type="checkbox"
               name="taken"
@@ -38,7 +41,7 @@
         </td>
         <td>
           <form method="POST" action="/medications/delete/<%= med._id %>" style="display:inline;">
-            <input type="hidden" name="_csrf" value="<%= _csrf %>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button>Delete</button>
           </form>
         </td>

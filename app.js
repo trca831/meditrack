@@ -1,16 +1,21 @@
 const express = require("express");
 require("express-async-errors");
-const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const csrf = require("csurf");
+// const bodyParser = require("body-parser");
+const flash = require("connect-flash");
 
 const app = express();
 
 app.set("view engine", "ejs");
-app.use(require("body-parser").urlencoded({ extended: true }));
-const cookieParser = require("cookie-parser");
-const csrf = require("csurf");
+const bodyParser = require("body-parser");
+// app.use(require("body-parser").urlencoded({ extended: true }));
+// const cookieParser = require("cookie-parser");
+// const csrf = require("csurf");
 
 require("dotenv").config(); // to load the .env file into the process.env object
-const session = require("express-session");
+// const session = require("express-session");
 
 const connectDB = require("./db/connect");
 // might not need this
@@ -47,7 +52,9 @@ app.use(csrf());
 
 // Make CSRF token available to EJS views
 app.use((req, res, next) => {
-  res.locals._csrf = req.csrfToken();
+  // res.locals._csrf = req.csrfToken(); //might need to add this again
+  res.locals.csrfToken = req.csrfToken ? req.csrfToken() : null;
+  res.locals.user = req.user || null;
   next();
 });
 
@@ -59,7 +66,8 @@ passportInit();
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(require("connect-flash")());
+// app.use(require("connect-flash")());
+app.use(flash());
 app.use((req, res, next) => {
   res.locals.successMessages = req.flash("success");
   res.locals.errorMessages = req.flash("error");
@@ -81,15 +89,14 @@ app.use("/medications", medicationRoutes); //added
 // secret word handling
 // let secretWord = "syzygy";
 const secretWordRouter = require("./routes/secretWord");
-// const auth = require("./middleware/auth");
 app.use("/secretWord", secretWordRouter);
 
 //middleware
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
-app.get("/", (req, res) => {
-  res.redirect("/medications"); // added
-});
+// app.get("/", (req, res) => {
+//   res.redirect("/medications"); // added
+// });
 
 app.use((req, res) => {
   res.status(404).send(`That page (${req.url}) was not found.`);
