@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const csrf = require("csurf");
 // const bodyParser = require("body-parser");
+const flash = require("connect-flash");
 
 const app = express();
 
@@ -65,7 +66,8 @@ passportInit();
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(require("connect-flash")());
+// app.use(require("connect-flash")());
+app.use(flash());
 app.use((req, res, next) => {
   res.locals.successMessages = req.flash("success");
   res.locals.errorMessages = req.flash("error");
