@@ -87,7 +87,6 @@ app.use("/medications", medicationRoutes); //added
 // secret word handling
 // let secretWord = "syzygy";
 const secretWordRouter = require("./routes/secretWord");
-// const auth = require("./middleware/auth");
 app.use("/secretWord", secretWordRouter);
 
 //middleware
