@@ -54,24 +54,24 @@ const renderNewMedForm = (req, res) => {
 
 // POST /medications - Create a new med
 const createMed = async (req, res) => {
-  const { name } = req.body;
+  // const { name } = req.body;
 
-  // check if name is missing
-  if (!name || name.trim() === "") {
-    req.flash("error", "Medication name is required.");
-    return res.redirect("/medications");
-  }
-  try {
-    req.body.createdBy = req.user._id;
-    await Med.create(req.body);
+  // // check if name is missing
+  // if (!name || name.trim() === "") {
+  //   req.flash("error", "Medication name is required.");
+  //   return res.redirect("/medications");
+  // }
+  // try {
+  req.body.createdBy = req.user._id;
+  await Med.create(req.body);
 
-    req.flash("success", "Medication added successfully!");
-    res.redirect("/medications");
-  } catch (err) {
-    console.error(err);
-    req.flash("error", "Something went wrong while creating medication.");
-    res.redirect("/medications");
-  }
+  //   req.flash("success", "Medication added successfully!");
+  //   res.redirect("/medications");
+  // } catch (err) {
+  //   console.error(err);
+  //   req.flash("error", "Something went wrong while creating medication.");
+  res.redirect("/medications");
+  // }
 };
 
 // GET /medications/:id/edit - Render form to edit a med
