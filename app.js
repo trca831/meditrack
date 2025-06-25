@@ -70,7 +70,7 @@ passportInit();
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use(require("connect-flash")());
+app.use(require("connect-flash")());
 app.use(flash());
 app.use((req, res, next) => {
   res.locals.successMessages = req.flash("success");
