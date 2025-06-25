@@ -5,7 +5,6 @@
 
 <form method="POST" action="<%= med ? '/medications/update/' + med._id : '/medications' %>" class="med-form">
   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
   <div class="form-group">
     <label for="name">Name</label>
     <input id="name" type="text" name="name" value="<%= med ? med.name : '' %>" required>
@@ -38,5 +37,6 @@
 
   <button type="submit" class="btn-submit"><%= med ? 'Update' : 'Create' %></button>
 </form>
+<a href="/" class="btn-back">← Back to Home</a>
 
 <%- include("partials/footer.ejs") %>
