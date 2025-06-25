@@ -35,14 +35,6 @@ A full-stack Node.js & Express application to help users track medications, mana
 - [x] **Error handling middleware**  
 - [x] **Code style with ESLint & Prettier**
 
-#### Lessons and branches where implemented:
-- Registration & login: [Lesson ___] - Branch: `auth-feature`
-- Medication CRUD: [Lesson ___] - Branch: `medication-crud`
-- Access control: [Lesson ___] - Branch: `auth-middleware`
-- Error handling: [Lesson ___] - Branch: `error-handling`
-- Validation: [Lesson ___] - Branch: `model-validation`
-- Bonus features: [Lesson ___] - Branch: `bonus-features`
-
 ---
 
 ### User Interface (EJS Views)
