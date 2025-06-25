@@ -13,7 +13,7 @@ A full-stack Node.js & Express application to help users track medications, mana
 - Server-side rendering with EJS templates
 - Flash notifications for feedback
 - Error handling middleware
-- Security with Helmet, xss-clean, rate limiting
+- Security with Helmet, xss-clean
 - Ready for deployment on Render.com
 
 ---
@@ -22,19 +22,18 @@ A full-stack Node.js & Express application to help users track medications, mana
 
 ### Models & Controllers
 
-- [ ] **Two or more Mongoose models:**  
+- [x] **Two or more Mongoose models:**  
   - `User` (auth)  
-  - `Medication` and/or `Inventory`  
-- [ ] **User registration & login with Passport**  
-- [ ] **Password hashing with bcrypt**  
-- [ ] **Attribute validation in models**  
-- [ ] **Full CRUD on medication/inventory**  
-- [ ] **Bonus: Search, sort, paging features**  
-- [ ] **Access control middleware for protected routes**  
-- [ ] **User-level access control in controllers**  
-- [ ] **User notifications via `connect-flash`**  
-- [ ] **Error handling middleware**  
-- [ ] **Code style with ESLint & Prettier**
+  - `Medication` 
+- [x] **User registration & login with Passport**  
+- [x] **Password hashing with bcrypt**  
+- [x] **Attribute validation in models**  
+- [x] **Full CRUD on medication/inventory**  
+- [x] **Access control middleware for protected routes**  
+- [x] **User-level access control in controllers**  
+- [x] **User notifications via `connect-flash`**  
+- [x] **Error handling middleware**  
+- [x] **Code style with ESLint & Prettier**
 
 #### Lessons and branches where implemented:
 - Registration & login: [Lesson ___] - Branch: `auth-feature`
@@ -48,27 +47,18 @@ A full-stack Node.js & Express application to help users track medications, mana
 
 ### User Interface (EJS Views)
 
-- [ ] Registration, login, logout pages  
-- [ ] Medication management forms and listings  
-- [ ] Navigation links/buttons  
-- [ ] Basic CSS styling  
-
-#### Lessons and branches where implemented:
-- Views & templates: [Lesson ___] - Branch: `views-setup`
-- Flash messages: [Lesson ___] - Branch: `flash-messages`
-- Styling: [Lesson ___] - Branch: `ui-styling`
+- [x] Registration, login, logout pages  
+- [x] Medication List 
+- [x] Navigation links/buttons  
+- [x] Basic CSS styling 
 
 ---
 
 ### Deployment & Security
 
-- [ ] Security middleware: helmet, xss-clean, rate limiting  
-- [ ] Use dotenv for environment variables  
-- [ ] Deployment to Render.com  
-
-#### Lessons and branches where implemented:
-- Security setup: [Lesson ___] - Branch: `security`
-- Deployment: [Lesson ___] - Branch: `deployment`
+- [x] Security middleware: helmet, xss-clean  
+- [x] Use dotenv for environment variables  
+- [x] Deployment to Render.com  
 
 ---
 
@@ -78,10 +68,6 @@ A full-stack Node.js & Express application to help users track medications, mana
 - [ ] API testing with Mocha/Chai  
 - [ ] Swagger API docs  
 
-#### Lessons and branches where implemented:
-- Photo upload: [Lesson ___] - Branch: `photo-upload`
-- Testing: [Lesson ___] - Branch: `tests`
-- API docs: [Lesson ___] - Branch: `swagger`
 
 ---
 
