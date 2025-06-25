@@ -1,6 +1,13 @@
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
 
+<% if (success_msg) { %>
+  <div class="alert alert-success"><%= success_msg %></div>
+<% } %>
+<% if (error_msg) { %>
+  <div class="alert alert-danger"><%= error_msg %></div>
+<% } %>
+
 <h2><%= med ? 'Edit Medication' : 'New Medication' %></h2>
 
 <form method="POST" action="<%= med ? '/medications/update/' + med._id : '/medications' %>" class="med-form">
