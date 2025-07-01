@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "test": "NODE_ENV=test mocha test/*.js --timeout 5000 --exit"
   },
   "keywords": [],
   "author": "",
@@ -32,8 +33,16 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "chai": "^5.2.0",
+    "chai-http": "^5.1.2",
     "eslint": "^9.28.0",
+    "factory-bot": "^6.3.1",
+    "install": "^0.13.0",
+    "mocha": "^11.7.1",
     "nodemon": "^3.1.10",
-    "prettier": "^3.5.3"
+    "npm": "^11.4.2",
+    "prettier": "^3.5.3",
+    "puppeteer": "^24.11.1"
   }
 }
